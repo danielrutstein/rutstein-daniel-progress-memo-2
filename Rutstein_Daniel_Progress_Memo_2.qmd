@@ -28,5 +28,5 @@ echo: false
 ::: {.callout-tip icon="false"}
 ## Github Repo Link
 
-[Daniel Rutstein Progress Memo Repo Link](https://github.com/stat301-1-2024-fall/final-project-1-danielrutstein.git)
+[Daniel Rutstein Progress Memo #2 Repo Link](https://github.com/danielrutstein/rutstein-daniel-progress-memo-2.git)
 :::
