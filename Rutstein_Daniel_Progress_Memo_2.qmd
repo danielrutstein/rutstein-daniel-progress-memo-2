@@ -30,3 +30,72 @@ echo: false
 
 [Daniel Rutstein Progress Memo #2 Repo Link](https://github.com/danielrutstein/rutstein-daniel-progress-memo-2.git)
 :::
+
+## Load Packages
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(nflplotR)
+```
+
+
+
+[Spreadsheet Link](https://docs.google.com/spreadsheets/d/1ERY9mJLI0LpalHmZC6ImHCE6_MhL2_Ic/edit?usp=share_link&ouid=109507493783401190116&rtpof=true&sd=true)
+"also in data folder of GitHub Repo"
+
+This is the link to my main database, which is a compilation of 10 NFL Draft Classes^[The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The "draft class" is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.] from 2011-2020, sourced from Sports Reference's football website: Pro Football Reference.^[“2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. ]  Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a `year` variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2545 observations among the 10 draft classes.
+
+[Source: Sports Reference](https://www.pro-football-reference.com/years/2020/draft.htm)
+
+## Load and Organize Dataset
+
+```{r}
+draft_prospects <- read_csv("data/nfl_draft_prospects.csv", guess_max = 13000)|>
+  select(
+    player_id, player_name, overall, school_name, school_abbr, pick, link, traded, trade_note, pick, weight, height, pos_rk, ovr_rk, grade
+  ) |> rename(
+    pick_rd = pick, college_mascot = school_name, college_abbr = school_abbr 
+  )
+
+draft_fbr_11_20 <- readxl::read_xlsx("data/nfldraft_11_20.xlsx")
+
+draft <- draft_fbr_11_20 |>
+  inner_join(draft_prospects, join_by(player == player_name, pick == overall))
+
+knitr::kable(slice_head(draft, n = 5))
+```
+When w_av = NA, player never played a game in the NFL. When dr_av = NA, the player never played for the team. When gp = NA, the player has 0 games played in the NFL. 
+```{r}
+draft |>
+  filter(is.na(w_av)) |>
+  arrange(desc(gp)) |>
+  select(player, gp, w_av)
+```
+For our purposes, I would consider these values as 0s since 0 gp, w_av, and dr_av the same as saying they never played.
+```{r}
+
+draft <- draft |>
+  complete(fill = list(w_av = 0, dr_av = 0, gp = 0))
+```
+
+
+Univariate analysis of dr_av
+```{r}
+draft |>
+  ggplot(aes(x = dr_av)) +
+  geom_density()
+```
+
+
+We need mutate weighted dr_av and w_av by yr, as players drafted in earlier years will have 
+```{r}
+draft |>
+  mutate(
+    rel_w_av = w_av / mean(w_av),
+    rel_dr_av = dr_av / mean(dr_av),
+    .by = year
+  ) |> arrange(desc(rel_w_av)) |> 
+  select(player, rel_w_av, rel_dr_av)
+```
+
