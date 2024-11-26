@@ -103,7 +103,7 @@ draft |>
   ) |>
   ggplot(aes(x = year, y = mean)) +
   geom_point() +
-  geom_smooth(method="lm", formula= (log(mean) ~ year), se=FALSE, color=2)
+  geom_smooth(method="lm", formula= (mean ~ log(2024 - year)), se=FALSE, color=2)
 
 #seems to be linear model of expected value
 w_av_fit <- linear_reg() |>

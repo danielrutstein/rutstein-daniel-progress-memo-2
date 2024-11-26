@@ -3054,6 +3054,7 @@ vertical-align: -.125em;
   <ul>
   <li><a href="#add-complexity-to-dataset" id="toc-add-complexity-to-dataset" class="nav-link active" data-scroll-target="#add-complexity-to-dataset">Add Complexity to Dataset</a></li>
   <li><a href="#finding-the-base-variable" id="toc-finding-the-base-variable" class="nav-link" data-scroll-target="#finding-the-base-variable">Finding the Base Variable</a></li>
+  <li><a href="#cleaningadding-helpful-variables" id="toc-cleaningadding-helpful-variables" class="nav-link" data-scroll-target="#cleaningadding-helpful-variables">Cleaning/Adding Helpful Variables</a></li>
   </ul>
 </nav>
 </div>
@@ -3776,6 +3777,13 @@ Github Repo Link
 </table>
 </div>
 </div>
+<p>The years appear to be more randomly distributed, so the model seems to fit expected value. We could also divide by mean, but this assumes that expected/average draft class value is the same across every year, which is not necessarily true (there is variance in the strength of each draft class). In conclusion, therefore, <code>rel_w_av</code> will be considered our main variable to estimate success of a draft pick in this exploration.</p>
+</section>
+<section id="cleaningadding-helpful-variables" class="level2">
+<h2 class="anchored" data-anchor-id="cleaningadding-helpful-variables">Cleaning/Adding Helpful Variables</h2>
+<p>Reassigned <code>team</code> levels (“OAK”, “STL”, and “SDG”) to match with the (“LVR”, “LAR”, and “LAC”) levels to ignore team location. The Oakland Raiders, St.Louis Rams, and San Diego Chargers became the Oakland Raiders, St.Louis Rams, and San Diego Chargers in the 2010’s decade, but relocation does not affect team rosters or expected team performance. Thus, location should have no effect on analyzing the <code>team</code> variable, unless we are investigating geography.</p>
+<p>Added integer <code>career_length</code> and boolean <code>active</code> variables to easily recall how long a player played (or has played) in the NFL and whether they are still playing.</p>
+<p>Created <code>pos_group</code> variable to condense positions into the groups that the NFL talent evaluation community typically uses to bucket players. This makes digesting factor variables much easier, as this cuts our levels from 22 to 10.</p>
 </section>
 
 

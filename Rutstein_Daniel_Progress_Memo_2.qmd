@@ -128,4 +128,16 @@ top10_rel_w_av <- draft |>
   kable(slice_head(top10_rel_w_av, n = 10))
 
 ```
+The years appear to be more randomly distributed, so the model seems to fit expected value. We could also divide by mean, but this assumes that expected/average draft class value is the same across every year, which is not necessarily true (there is variance in the strength of each draft class). In conclusion, therefore, `rel_w_av` will be considered our main variable to estimate success of a draft pick in this exploration.
+
+## Cleaning/Adding Helpful Variables
+Reassigned `team` levels ("OAK", "STL", and "SDG") to match with the ("LVR", "LAR", and "LAC") levels to ignore team location. The Oakland Raiders, St.Louis Rams, and San Diego Chargers became the Oakland Raiders, St.Louis Rams, and San Diego Chargers in the 2010's decade, but relocation does not affect team rosters or expected team performance. Thus, location should have no effect on analyzing the `team` variable, unless we are investigating geography. 
+
+Added integer `career_length` and boolean `active` variables to easily recall how long a player played (or has played) in the NFL and whether they are still playing.
+
+Created `pos_group` variable to condense positions into the groups that the NFL talent evaluation community typically uses to bucket players. This makes digesting factor variables much easier, as this cuts our levels from 22 to 10.
+
+
+
+
 
