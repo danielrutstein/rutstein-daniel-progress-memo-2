@@ -113,15 +113,17 @@ w_av_fit
 #seems to be exponential model of expected value
 draft |>
   mutate (year_since = 2024 - year) |>
-  filter(w_av > 0) |>
-  lm(formula = log(w_av) ~ year_since)
+  lm(formula = w_av ~ log(year_since))
 
 # weight player value relative to linear expectation (for draft year)
 draft <- draft |>
   mutate(
-    rel_w_av = w_av / (1742.29 - (0.8561 * year)),
+    rel_w_av = w_av / (2.275 + 7.054 * log(2024 - year)),
     avg_w_av = if_else(career_length > 0, w_av / career_length, 0)
   ) 
+draft |> 
+  arrange(desc(rel_w_av)) |>
+  select(player, rel_w_av)
 
 draft |>
   group_by(year) |>
