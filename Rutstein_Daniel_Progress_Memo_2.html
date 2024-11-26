@@ -3052,8 +3052,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages">Load Packages</a></li>
-  <li><a href="#load-and-organize-dataset" id="toc-load-and-organize-dataset" class="nav-link" data-scroll-target="#load-and-organize-dataset">Load and Organize Dataset</a></li>
+  <li><a href="#add-complexity-to-dataset" id="toc-add-complexity-to-dataset" class="nav-link active" data-scroll-target="#add-complexity-to-dataset">Add Complexity to Dataset</a></li>
   </ul>
 </nav>
 </div>
@@ -3107,14 +3106,14 @@ Github Repo Link
 <p><a href="https://github.com/danielrutstein/rutstein-daniel-progress-memo-2.git">Daniel Rutstein Progress Memo #2 Repo Link</a></p>
 </div>
 </div>
-<section id="load-packages" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="load-packages">Load Packages</h2>
 <p><a href="https://docs.google.com/spreadsheets/d/1ERY9mJLI0LpalHmZC6ImHCE6_MhL2_Ic/edit?usp=share_link&amp;ouid=109507493783401190116&amp;rtpof=true&amp;sd=true">Spreadsheet Link</a> “also in data folder of GitHub Repo”</p>
 <p>This is the link to my main database, which is a compilation of 10 NFL Draft Classes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from 2011-2020, sourced from Sports Reference’s football website: Pro Football Reference.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a <code>year</code> variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2545 observations among the 10 draft classes.</p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup> The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The “draft class” is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.</p></div><div id="fn2"><p><sup>2</sup> “2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. </p></div></div><p><a href="https://www.pro-football-reference.com/years/2020/draft.htm">Source: Sports Reference</a></p>
-</section>
-<section id="load-and-organize-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="load-and-organize-dataset">Load and Organize Dataset</h2>
+<section id="add-complexity-to-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="add-complexity-to-dataset">Add Complexity to Dataset</h2>
+<p>After submitting progress memo #1, my greatst concern was not having enough “meat on the bone”, per sé, to perform a complex enough EDA. Thus, I found two new datasets to join to my original draft profiles, adding 21 new variables to work with.</p>
+<p>The first database was sourced from Kaggle, containing ESPN.com draft data for each prospect. I am curious how the media performs relative to NFL professionals, so the ESPN position and overall rankings will be nteresting variables to explore. In addition, this database contains information on player height, weight, and whether the draft pick was traded, which gives further opprotunity to explore new research questions.</p>
+<p>The second is an NFL coaches database from Sports Reference (the same souce as the original dataset). This dataset not only provides each team’s coach in the years in my orginal draft database, but also information on team records, playoff success, and Super Bowl wins. This additional team-related data will enable me to group teams into more condensed factors than 32, such as the number of coaches (firings) they had in the 2010’s decade and whether the teams won a Super Bowl in the 2010s decade.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -3426,7 +3425,6 @@ Github Repo Link
 </table>
 </div>
 </div>
-<p>When w_av = NA, player never played a game in the NFL. When dr_av = NA, the player never played for the team. When gp = NA, the player has 0 games played in the NFL.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 190 × 3

@@ -31,7 +31,6 @@ echo: false
 [Daniel Rutstein Progress Memo #2 Repo Link](https://github.com/danielrutstein/rutstein-daniel-progress-memo-2.git)
 :::
 
-## Load Packages
 
 ```{r}
 library(tidyverse)
@@ -48,8 +47,12 @@ This is the link to my main database, which is a compilation of 10 NFL Draft Cla
 
 [Source: Sports Reference](https://www.pro-football-reference.com/years/2020/draft.htm)
 
-## Load and Organize Dataset
+## Add Complexity to Dataset
+After submitting progress memo #1, my greatst concern was not having enough "meat on the bone", per sé, to perform a complex enough EDA. Thus, I found two new datasets to join to my original draft profiles, adding 21 new variables to work with.
 
+The first database was sourced from Kaggle, containing ESPN.com draft data for each prospect. I am curious how the media performs relative to NFL professionals, so the ESPN position and overall rankings will be nteresting variables to explore. In addition, this database contains information on player height, weight, and whether the draft pick was traded, which gives further opprotunity to explore new research questions.
+
+The second is an NFL coaches database from Sports Reference (the same souce as the original dataset). This dataset not only provides each team's coach in the years in my orginal draft database, but also information on team records, playoff success, and Super Bowl wins. This additional team-related data will enable me to group teams into more condensed factors than 32, such as the number of coaches (firings) they had in the 2010's decade and whether the teams won a Super Bowl in the 2010s decade.
 ```{r}
 draft_prospects <- read_csv("data/nfl_draft_prospects.csv", guess_max = 13000)|>
   select(
@@ -59,13 +62,17 @@ draft_prospects <- read_csv("data/nfl_draft_prospects.csv", guess_max = 13000)|>
   )
 
 draft_fbr_11_20 <- readxl::read_xlsx("data/nfldraft_11_20.xlsx")
+coaches_fbr_11_20 <- readxl::read_xlsx("data/nfl_coaches_11_20.xlsx")
 
 draft <- draft_fbr_11_20 |>
-  inner_join(draft_prospects, join_by(player == player_name, pick == overall))
+  inner_join(draft_prospects, join_by(pick == overall, year == draft_year)) |>
+  left_join(coaches_fbr_11_20, join_by(year, team))
 
 knitr::kable(slice_head(draft, n = 5))
 ```
-When w_av = NA, player never played a game in the NFL. When dr_av = NA, the player never played for the team. When gp = NA, the player has 0 games played in the NFL. 
+
+
+
 ```{r}
 draft |>
   filter(is.na(w_av)) |>
