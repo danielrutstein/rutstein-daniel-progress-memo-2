@@ -1,0 +1,32 @@
+---
+title: "Progress Memo 2"
+subtitle: |
+  | Final Project 
+  | Data Science 1 with R (STAT 301-1)
+author: "Daniel Rutstein"
+pagetitle: "Daniel Rutstein"
+date: today
+
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    embed-resources: true
+    link-external-newwindow: true
+
+execute:
+  warning: false
+
+from: markdown+emoji
+reference-location: margin
+citation-location: margin
+eval: true
+echo: false
+---
+
+::: {.callout-tip icon="false"}
+## Github Repo Link
+
+[Daniel Rutstein Progress Memo Repo Link](https://github.com/stat301-1-2024-fall/final-project-1-danielrutstein.git)
+:::
