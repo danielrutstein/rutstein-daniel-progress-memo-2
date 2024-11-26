@@ -93,18 +93,28 @@ draft <- draft |>
   ) 
 
 draft |>
+  filter( w_av > 0) |>
   group_by(year) |>
   summarize(
     mean = mean(w_av, na.rm = TRUE),
     median = median(w_av, na.rm = TRUE),
     sd = sd(w_av, na.rm = TRUE),
     IQR = IQR(w_av, na.rm = TRUE)
-  )
+  ) |>
+  ggplot(aes(x = year, y = mean)) +
+  geom_point() +
+  geom_smooth(method="lm", formula= (log(mean) ~ year), se=FALSE, color=2)
 
 #seems to be linear model of expected value
 w_av_fit <- linear_reg() |>
   fit(w_av ~ year, data = draft)
 w_av_fit
+
+#seems to be exponential model of expected value
+draft |>
+  mutate (year_since = 2024 - year) |>
+  filter(w_av > 0) |>
+  lm(formula = log(w_av) ~ year_since)
 
 # weight player value relative to linear expectation (for draft year)
 draft <- draft |>

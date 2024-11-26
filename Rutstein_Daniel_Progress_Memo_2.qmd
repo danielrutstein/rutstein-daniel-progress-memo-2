@@ -36,6 +36,7 @@ echo: false
 library(tidyverse)
 library(readxl)
 library(nflplotR)
+library(knitr)
 ```
 
 
@@ -52,11 +53,10 @@ After submitting progress memo #1, my greatst concern was not having enough "mea
 
 The first database was sourced from Kaggle, containing ESPN.com draft data for each prospect. I am curious how the media performs relative to NFL professionals, so the ESPN position and overall rankings will be nteresting variables to explore. In addition, this database contains information on player height, weight, and whether the draft pick was traded, which gives further opprotunity to explore new research questions.
 
-The second is an NFL coaches database from Sports Reference (the same souce as the original dataset). This dataset not only provides each team's coach in the years in my orginal draft database, but also information on team records, playoff success, and Super Bowl wins. This additional team-related data will enable me to group teams into more condensed factors than 32, such as the number of coaches (firings) they had in the 2010's decade and whether the teams won a Super Bowl in the 2010s decade.
 ```{r}
 draft_prospects <- read_csv("data/nfl_draft_prospects.csv", guess_max = 13000)|>
   select(
-    player_id, player_name, overall, school_name, school_abbr, pick, link, traded, trade_note, pick, weight, height, pos_rk, ovr_rk, grade
+    player_id, player_name, overall, school_name, school_abbr, pick, link, traded, trade_note, pick, weight, height, pos_rk, ovr_rk, draft_year, grade
   ) |> rename(
     pick_rd = pick, college_mascot = school_name, college_abbr = school_abbr 
   )
@@ -64,45 +64,59 @@ draft_prospects <- read_csv("data/nfl_draft_prospects.csv", guess_max = 13000)|>
 draft_fbr_11_20 <- readxl::read_xlsx("data/nfldraft_11_20.xlsx")
 coaches_fbr_11_20 <- readxl::read_xlsx("data/nfl_coaches_11_20.xlsx")
 
+#official join statement
 draft <- draft_fbr_11_20 |>
   inner_join(draft_prospects, join_by(pick == overall, year == draft_year)) |>
   left_join(coaches_fbr_11_20, join_by(year, team))
 
-knitr::kable(slice_head(draft, n = 5))
+kable(slice_head(draft, n = 5))
 ```
 
 
+## Finding the Base Variable
+To lay the foundation of my EDA, I need to answer a simple yet ambiguous question: for the purposes of the project, which variable best approximates player success? The two candidates are `w_av`, which is Football Reference's weighted career value for each player in the dataset across position, and `dr_av`, which uses the same formula, but omits any accumulated career value after leaving the team that drafted them. The pros of each are 
+
+`dr_av`: Theoretically, we want to know how valuable a draft pick was to the team that drafted them. Since a team does not care how a player performs for other teams after the player is no longer on their team, `dr_av` succeeds at ignoring this marginal performance.
+
+`w_av`: Just because draft value is a more direct estimator of expected value to the team that drafted them, it is not necessarily the best. There is great variance to consider regarding how a player leaves a team. In a worst case, we have a Type II error where a player gets cut from the team that drafted them, then "breaks out" on another team that takes them on. However, even in this case, it may be the coaching staff's fault for failing to recognize the talent their personnel staff provided for them, or failure to wait for the learning curve of the player with the 53-man roster constraint in the NFL. Furthermore, there are cases where the player is traded (and the team gets undetected value in the form of trade compensation), or the team is outbid on a second contract, even though they would have liked to retain the player in the absence of free agency.
+
+Thus, I believe `w_av` is a better estimator. Let's see who the Top 10 players are in `w_av` to confirm our hypothesis.
+
+```{r}
+top10_w_av <- draft |>
+  arrange(desc(w_av)) |>
+  select(player, w_av)
+  kable(slice_head(top10_w_av, n = 10))
+```
+For any NFL fan, the problem is obvious. Let's add year to the table.
+
+```{r}
+top10_w_av <- draft |>
+  arrange(desc(w_av)) |>
+  select(player, year, w_av)
+  kable(slice_head(top10_w_av, n = 10))
+```
+
+w_av is a cumulative statistic, so there is a heavy bias to players drafted on the earlier half of the 2010's decade. We could do an average `w_av` by years active to remedy this, but I would argue that would overweigh the converse, as player performance generally regresses with age. Let's compare how expected value changes by draft year.
 
 ```{r}
 draft |>
-  filter(is.na(w_av)) |>
-  arrange(desc(gp)) |>
-  select(player, gp, w_av)
-```
-For our purposes, I would consider these values as 0s since 0 gp, w_av, and dr_av the same as saying they never played.
-```{r}
-
-draft <- draft |>
-  complete(fill = list(w_av = 0, dr_av = 0, gp = 0))
-```
-
-
-Univariate analysis of dr_av
-```{r}
+  group_by(year) |>
+  summarize(
+    mean = mean(w_av, na.rm = TRUE),
+    median = median(w_av, na.rm = TRUE),
+    sd = sd(w_av, na.rm = TRUE),
+    IQR = IQR(w_av, na.rm = TRUE)
+  ) |> kable()
 draft |>
-  ggplot(aes(x = dr_av)) +
-  geom_density()
+  group_by(year) |>
+  summarize(mean = mean(w_av, na.rm = TRUE)) |>
+  ggplot(aes(x = year, y = mean)) +
+  geom_point()
 ```
+Looks like an exponential regression to me. Let's normalize our w_av variable by an exponential approximation to minimize the affect of year possible as much as we can.
 
-
-We need mutate weighted dr_av and w_av by yr, as players drafted in earlier years will have 
 ```{r}
-draft |>
-  mutate(
-    rel_w_av = w_av / mean(w_av),
-    rel_dr_av = dr_av / mean(dr_av),
-    .by = year
-  ) |> arrange(desc(rel_w_av)) |> 
-  select(player, rel_w_av, rel_dr_av)
+
 ```
 
