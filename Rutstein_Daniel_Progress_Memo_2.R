@@ -85,6 +85,11 @@ draft <- draft |>
     pos_group = fct_relevel(pos_group, std_pos_order)
   )
 
+draft |>
+  ggplot(aes(x = as.factor(round), y = pos_group)) +
+  geom_tile(aes(fill = n))
+
+
 # add helpful variables
 draft <- draft |>
   mutate(
@@ -156,6 +161,15 @@ draft |>
   geom_boxplot() +
   facet_wrap(~pos_group)
 
+
+
+
+
+
+
+
+# scratch work ----
+
 draft |>
   ggplot(aes(x = dr_av, y = w_av)) +
   geom_point(alpha = 0.3)
@@ -219,12 +233,33 @@ draft |>
 
 
 
+draft |>
+  summarize(
+    started = sum(start_yrs > 3),
+    prop_start = started /n()
+  )
 
 
 
 
 
-
+draft |>
+  summarize(
+    avg_rel_w_av = sum(rel_w_av, na.rm = TRUE) / n(),
+    .by = team
+  ) |> arrange(desc(avg_rel_w_av)) |>
+  ggplot(aes(x = team, y= avg_rel_w_av)) + 
+  geom_point(col="tomato2", size=3) +   # Draw points
+  geom_segment(aes(x = team, 
+                   xend = team, 
+                   y = min(avg_rel_w_av), 
+                   yend = max(avg_rel_w_av)), 
+               linetype="dashed", 
+               size=0.1) +   # Draw dashed lines
+  labs(title="Dot Plot", 
+       subtitle="Make Vs Avg. Mileage", 
+       caption="source: mpg") +  
+  coord_flip()
 
 
 

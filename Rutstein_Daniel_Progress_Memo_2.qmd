@@ -181,6 +181,14 @@ draft <- draft |>
     ),
     pos_group = fct_relevel(pos_group, std_pos_order)
   )
+draft |>
+  ggplot(aes(x = rel_w_av)) +
+  geom_density() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by position group", 
+    x = "player value"
+  )
 
 draft |>
   ggplot(aes(x = as.factor(round), y = rel_w_av)) +
@@ -201,6 +209,17 @@ draft |>
     x = "round",
     y = "player value"
   )
+
+draft |>
+  count(round, pos_group) |>
+  ggplot(aes(x = as.factor(round), y = pos_group)) +
+  geom_tile(aes(fill = n)) +
+  labs(
+    title = "Density of position targeted by round", 
+    x = "round",
+    y = "position"
+  )
+
 ```
 
 
