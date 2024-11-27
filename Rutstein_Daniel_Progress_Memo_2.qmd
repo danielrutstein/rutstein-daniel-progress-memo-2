@@ -175,5 +175,25 @@ From @fig-pg-density, we can clearly see the distribution of expected value by `
 Furthermore, @fig-pg-value demonstrates that dropoffs in value by round differ by `pos_group`. For example, there is a sharp dropoff in value after the first two rounds for quarterbacks, whereas offensive linemen and defensive backs follow a steady linear decline in value. 
 
 
+## Next Steps
+
+After conditioning my data to answer proper research questions, I plan on formatting my EDA in "7 rounds", where I will answer 7 substantial questions about patterns relating to the NFL draft and the database. These questions are subject to change, but currently, they are:
+
+1) Does recency bias (success of position groups in previous draft) affect draft positions in the next year’s draft?
+  
+2)	What patterns can we find with player age when drafted and performance? 
+
+3)	What is the relationship between draft picks per team in a draft and expected draft class value?
+
+4)	Does draft pick success correlate with head coach tenure and turnover?
+
+5)	What is the relationship between college conference/other college groupings and draft pick success rate?
+
+6)	Are “hometown” picks (when team drafts from nearby colleges) more likely than others? More successful than others?
+
+7)	Are first round draft picks less successful when they deviate from media “consensus”, more successful when they get a “steal” (positive)?
+
+
+
 
 
