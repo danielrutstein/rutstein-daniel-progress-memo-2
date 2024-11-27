@@ -137,6 +137,17 @@ draft |>
   )
 
 # Initial Analysis ----
+draft |>
+  group_by(year) |>
+  summarize(mean = mean(w_av, na.rm = TRUE)) |>
+  ggplot(aes(x = as.factor(year), y = mean)) +
+  geom_point() +
+  labs(
+    title = "Expected value (mean w_av) by draft class", 
+    x = "draft class", 
+    y = "expected value"
+  )
+ggsave(filename = "exp_w_av_1120.png")
 ## Univariate analysis ----
 
 #distribution of expected value in draft
