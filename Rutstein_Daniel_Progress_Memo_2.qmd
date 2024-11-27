@@ -109,16 +109,6 @@ draft |>
     sd = sd(w_av, na.rm = TRUE),
     IQR = IQR(w_av, na.rm = TRUE)
   ) |> kable(caption = "summary stats by draft class")
-draft |>
-  group_by(year) |>
-  summarize(mean = mean(w_av, na.rm = TRUE)) |>
-  ggplot(aes(x = as.factor(year), y = mean)) +
-  geom_point() +
-  labs(
-    title = "Expected value (mean w_av) by draft class", 
-    x = "draft class", 
-    y = "expected value"
-  )
 ```
 ![Expected value (mean w_av) by draft class](2plots/exp_w_av_1120.png){#fig-exp_w_av_1120}
 
@@ -145,26 +135,14 @@ Added integer `career_length` and boolean `active` variables to easily recall ho
 
 Created `pos_group` variable to condense positions into the groups that the NFL talent evaluation community typically uses to bucket players. This makes digesting factor variables much easier, as this cuts our levels from 22 to 10.
 
-# Analysis of rel_w_av
-Viewing the density plot of `rel_w_av` and the boxplot of `rel_w_av` by `round`, the data behaves as we expect. Only 50.7% of players are "starters" for at least one NFL season, and only 22.9% are "starters: for at least 4 years (the duration of an NFL contract). Thus, it makes sense that the density of `rel_w_av` skews heavily to the right, since the near median draft pick does not even start for any season in the NFL. The long tail also makes sense since star players (Russell Wilson, Aaron Donald, Patrick Mahomes), return substantially more value to their teams over their careers than the average player. Grouping `rel_w_av` by round, the pattern also follows exactly what would be expected: each quartile and the median always decreases as round increases. The soundness of `rel_w_av` in conforming to expected patterns supports the notion that `rel_w_av` is a fairly accurate estimator of success of a draft pick.
-```{r}
-draft |>
-  ggplot(aes(x = rel_w_av)) +
-  geom_density() +
-  labs(
-    title = "Distribution of player value", 
-    x = "player value (as measured by rel_w_av)"
-  )
+## Analysis of rel_w_av
+Viewing the density plot of `rel_w_av` (see @fig-dist_value) and the boxplot of `rel_w_av` by `round` (see @fig-dist_value_rnd), the data behaves as we expect. Only 50.7% of players are "starters" for at least one NFL season, and only 22.9% are "starters: for at least 4 years (the duration of an NFL contract). Thus, it makes sense that the density of `rel_w_av` skews heavily to the right, since the near median draft pick does not even start for any season in the NFL. The long tail also makes sense since star players (Russell Wilson, Aaron Donald, Patrick Mahomes), return substantially more value to their teams over their careers than the average player. Grouping `rel_w_av` by round in @fig-dist_value_rnd, the pattern also follows exactly what would be expected: each quartile and the median always decreases as round increases. The soundness of `rel_w_av` in conforming to expected patterns supports the notion that `rel_w_av` is a fairly accurate estimator of success of a draft pick.
 
-draft |>
-  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
-  geom_boxplot() +
-  labs(
-    title = "Distribution of player value by round", 
-    x = "round",
-    y = "player value"
-  )
-```
+![Distribution of player value](2plots/dist_value.png){#fig-dist_value}
+
+![Distribution of player value by round](2plots/dist_value_rnd.png){#fig-dist_value_rnd}
+
+
 
 ## Analysis of relationship between Position Groups and rel_w_av
 
