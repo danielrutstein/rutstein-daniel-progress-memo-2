@@ -70,7 +70,7 @@ draft <- draft_fbr_11_20 |>
   inner_join(draft_prospects, join_by(pick == overall, year == draft_year)) |>
   left_join(coaches_fbr_11_20, join_by(year, team))
 
-kable(slice_head(draft, n = 5))
+kable(slice_head(draft, n = 5)) 
 ```
 
 
@@ -113,7 +113,12 @@ draft |>
   group_by(year) |>
   summarize(mean = mean(w_av, na.rm = TRUE)) |>
   ggplot(aes(x = as.factor(year), y = mean)) +
-  geom_point()
+  geom_point() +
+  labs(
+    title = "Expected value (mean w_av) by draft class", 
+    x = "draft class", 
+    y = "expected value"
+  )
 ```
 Looks like a logarithmic regression to me. Let's normalize our w_av variable by an exponential approximation to minimize the affect of year possible as much as we can.
 
@@ -143,11 +148,20 @@ Viewing the density plot of `rel_w_av` and the boxplot of `rel_w_av` by `round`,
 ```{r}
 draft |>
   ggplot(aes(x = rel_w_av)) +
-  geom_density()
+  geom_density() +
+  labs(
+    title = "Distribution of player value", 
+    x = "player value (as measured by rel_w_av)"
+  )
 
 draft |>
   ggplot(aes(x = as.factor(round), y = rel_w_av)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(
+    title = "Distribution of player value by round", 
+    x = "round",
+    y = "player value"
+  )
 ```
 
 
