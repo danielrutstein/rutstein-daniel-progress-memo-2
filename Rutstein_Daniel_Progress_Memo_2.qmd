@@ -162,57 +162,17 @@ Viewing the density plot of `rel_w_av` (see @fig-dist_value) and the boxplot of 
 
 An important factor variable to consider in the exploration is position group (`pos_group` in tibble). Although `rel_w_av` attempts to determine how valuable a player is independent of position, each player in football performs a completely different role (unlike, say, baseball) and is evaluated on completely different criteria. 
 
-```{r}
-std_pos_order <- c("QB", "RB", "WR", "TE", "OL", "IDL", "EDGE", "LB", "DB", "ST")
-draft <- draft |>
-  mutate(
-    pos_group = fct_collapse(pos,
-                             "RB" = c("RB", "FB"),
-                             "OL" = c("C", "G", "T", "OL"),
-                             "IDL" = c("DL", "DT", "NT"),
-                             "EDGE" = c("DE", "OLB"),
-                             "LB" = c("ILB", "LB"),
-                             "DB" = c("DB", "CB","S"),
-                             "ST" = c("K", "LS", "P")
-    ),
-    pos_group = fct_relevel(pos_group, std_pos_order)
-  )
+![Density of position targeted by round](2plots/pos_group_tile.png){#fig-pg-tile}
 
-draft |>
-  count(round, pos_group) |>
-  ggplot(aes(x = as.factor(round), y = pos_group)) +
-  geom_tile(aes(fill = n)) +
-  labs(
-    title = "Density of position targeted by round", 
-    x = "round",
-    y = "position"
-  )
+@fig-pg-tile confirms that `pos_group` behaves as we would expect. Teams draft what NFL analysts consider "premium" positions (QB, WR, EDGE, OL) more frequently in the early rounds and less valuable positions (ST, RB, LB, TE) more frequently in the later rounds.
 
-```
-FIGURE HERE confirms that `pos_group` behaves as we would expect. Teams draft what NFL analysts consider "premium" positions (QB, WR, EDGE, OL) more frequently in the early rounds and less valuable positions (ST, RB, LB, TE) more frequently in the later rounds.
-```{r}
-draft |>
-  ggplot(aes(x = rel_w_av)) +
-  geom_density() +
-  facet_wrap(~pos_group) +
-  labs(
-    title = "Distribution of player value by position group", 
-    x = "player value"
-  )
-```
-From FIGURE HERE, we can clearly see the distribution of expected value by `pos_group` is not uniform. Tight ends and defensive backs have an especially high density near 0, whereas offensive lineman and quarterbacks are less dense in this region, meaning they are less likely to outright fail. 
-```{r}
-draft |>
-  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
-  geom_boxplot() +
-  facet_wrap(~pos_group) +
-  labs(
-    title = "Distribution of player value by round, grouped by position", 
-    x = "round",
-    y = "player value"
-  )
-```
-Furthermore, FIGURE HERE demonstrates that dropoffs in value by round differ by `pos_group`. For example, there is a sharp dropoff in value after the first two rounds for quarterbacks, whereas offensive linemen and defensive backs follow a steady linear decline in value. 
+![Density of player value by position group](2plots/pos_group_density.png){#fig-pg-density}
+
+From @fig-pg-density, we can clearly see the distribution of expected value by `pos_group` is not uniform. Tight ends and defensive backs have an especially high density near 0, whereas offensive lineman and quarterbacks are less dense in this region, meaning they are less likely to outright fail. 
+
+![Density of player value by round, grouped by position](2plots/pos_group_value.png){#fig-pg-value}
+
+Furthermore, @fig-pg-value demonstrates that dropoffs in value by round differ by `pos_group`. For example, there is a sharp dropoff in value after the first two rounds for quarterbacks, whereas offensive linemen and defensive backs follow a steady linear decline in value. 
 
 
 

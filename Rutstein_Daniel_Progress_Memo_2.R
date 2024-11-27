@@ -153,12 +153,24 @@ ggsave(filename = "exp_w_av_1120.png")
 #distribution of expected value in draft
 draft |>
   ggplot(aes(x = rel_w_av)) +
-  geom_density()
+  geom_density() +
+  labs(
+    title = "Distribution of player value", 
+    x = "player value (as measured by rel_w_av)"
+  )
+ggsave(filename = "dist_value.png")
+
 
 #distribution of expected value in draft by round, and year
 draft |>
   ggplot(aes(x = as.factor(round), y = rel_w_av)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(
+    title = "Distribution of player value by round", 
+    x = "round",
+    y = "player value"
+  )
+ggsave(filename = "dist_value_rnd.png")
 
 draft |>
   ggplot(aes(x = rel_w_av)) +
@@ -171,7 +183,39 @@ draft |>
   ggplot(aes(x = as.factor(round), y = rel_w_av)) +
   geom_boxplot() +
   facet_wrap(~pos_group)
+ggsave(filename = "pos_group_value.png")
 
+draft |>
+  count(round, pos_group) |>
+  ggplot(aes(x = as.factor(round), y = pos_group)) +
+  geom_tile(aes(fill = n)) +
+  labs(
+    title = "Density of position targeted by round", 
+    x = "round",
+    y = "position"
+  )
+ggsave(filename = "pos_group_tile.png")
+
+
+draft |>
+  ggplot(aes(x = rel_w_av)) +
+  geom_density() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by position group", 
+    x = "player value"
+  )
+
+draft |>
+  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
+  geom_boxplot() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by round, grouped by position", 
+    x = "round",
+    y = "player value"
+  )
+ggsave(filename = "pos_group_density.png")
 
 
 
