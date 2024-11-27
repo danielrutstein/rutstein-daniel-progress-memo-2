@@ -87,7 +87,7 @@ Thus, I believe `w_av` is a better estimator. Let's see who the Top 10 players a
 top10_w_av <- draft |>
   arrange(desc(w_av)) |>
   select(player, w_av)
-  kable(slice_head(top10_w_av, n = 10))
+  kable(slice_head(top10_w_av, n = 10), caption = "Top 10 players by w_av")
 ```
 For any NFL fan, the problem is obvious. Let's add year to the table.
 
@@ -95,7 +95,7 @@ For any NFL fan, the problem is obvious. Let's add year to the table.
 top10_w_av <- draft |>
   arrange(desc(w_av)) |>
   select(player, year, w_av)
-  kable(slice_head(top10_w_av, n = 10))
+  kable(slice_head(top10_w_av, n = 10), caption = "Top 10 players by w_av")
 ```
 
 w_av is a cumulative statistic, so there is a heavy bias to players drafted on the earlier half of the 2010's decade. We could do an average `w_av` by years active to remedy this, but I would argue that would overweigh the converse, as player performance generally regresses with age. Let's compare how expected value changes by draft year.
@@ -108,7 +108,7 @@ draft |>
     median = median(w_av, na.rm = TRUE),
     sd = sd(w_av, na.rm = TRUE),
     IQR = IQR(w_av, na.rm = TRUE)
-  ) |> kable()
+  ) |> kable(caption = "summary stats by draft class")
 draft |>
   group_by(year) |>
   summarize(mean = mean(w_av, na.rm = TRUE)) |>
@@ -131,7 +131,7 @@ draft <- draft |>
 top10_rel_w_av <- draft |> 
   arrange(desc(rel_w_av)) |>
   select(player, year, rel_w_av)
-  kable(slice_head(top10_rel_w_av, n = 10))
+  kable(slice_head(top10_rel_w_av, n = 10), caption = "Top 10 players by log-adjusted w_av")
 
 ```
 The years appear to be more randomly distributed, so the model seems to fit expected value. We could also divide by mean, but this assumes that expected/average draft class value is the same across every year, which is not necessarily true (there is variance in the strength of each draft class). In conclusion, therefore, `rel_w_av` will be considered our main variable to estimate success of a draft pick in this exploration.
