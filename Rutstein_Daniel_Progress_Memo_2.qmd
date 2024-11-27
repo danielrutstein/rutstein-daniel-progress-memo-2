@@ -82,13 +82,14 @@ To lay the foundation of my EDA, I need to answer a simple yet ambiguous questio
 `w_av`: Just because draft value is a more direct estimator of expected value to the team that drafted them, it is not necessarily the best. There is great variance to consider regarding how a player leaves a team. In a worst case, we have a Type II error where a player gets cut from the team that drafted them, then "breaks out" on another team that takes them on. However, even in this case, it may be the coaching staff's fault for failing to recognize the talent their personnel staff provided for them, or failure to wait for the learning curve of the player with the 53-man roster constraint in the NFL. Furthermore, there are cases where the player is traded (and the team gets undetected value in the form of trade compensation), or the team is outbid on a second contract, even though they would have liked to retain the player in the absence of free agency.
 
 Thus, I believe `w_av` is a better estimator. Let's see who the Top 10 players are in `w_av` to confirm our hypothesis.
+
 ```{r}
 top10_w_av <- draft |>
   arrange(desc(w_av)) |>
   select(player, w_av)
-  ![kable(slice_head(top10_w_av, n = 10), caption = "Top 10 players by w_av")] 
+  kable(slice_head(top10_w_av, n = 10), caption = "Top 10 players by w_av")
 ```
-For anyone familiar with the NFL, the problem is obvious. Let's add year to this table.
+For anyone familiar with the NFL, the problem is obvious. Let's add year to the table.
 
 ```{r}
 top10_w_av <- draft |>
@@ -119,7 +120,9 @@ draft |>
     y = "expected value"
   )
 ```
-Looks like a logarithmic regression to me. Let's normalize our w_av variable by an exponential approximation to minimize the affect of year possible as much as we can.
+![Expected value (mean w_av) by draft class](2plots/exp_w_av_1120.png){#fig-exp_w_av_1120}
+
+From @fig-exp_w_av_1120, looks like a logarithmic regression to me. Let's normalize our w_av variable by an exponential approximation to minimize the affect of year possible as much as we can.
 
 ```{r}
 draft <- draft |>
