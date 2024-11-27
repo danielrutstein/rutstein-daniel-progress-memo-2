@@ -3052,7 +3052,8 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#add-complexity-to-dataset" id="toc-add-complexity-to-dataset" class="nav-link active" data-scroll-target="#add-complexity-to-dataset">Add Complexity to Dataset</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#adding-complexity-to-dataset" id="toc-adding-complexity-to-dataset" class="nav-link" data-scroll-target="#adding-complexity-to-dataset">Adding Complexity to Dataset</a></li>
   <li><a href="#finding-the-base-variable" id="toc-finding-the-base-variable" class="nav-link" data-scroll-target="#finding-the-base-variable">Finding the Base Variable</a></li>
   <li><a href="#cleaningadding-helpful-variables" id="toc-cleaningadding-helpful-variables" class="nav-link" data-scroll-target="#cleaningadding-helpful-variables">Cleaning/Adding Helpful Variables</a></li>
   <li><a href="#analysis-of-rel_w_av" id="toc-analysis-of-rel_w_av" class="nav-link" data-scroll-target="#analysis-of-rel_w_av">Analysis of rel_w_av</a></li>
@@ -3110,12 +3111,30 @@ Github Repo Link
 <p><a href="https://github.com/danielrutstein/rutstein-daniel-progress-memo-2.git">Daniel Rutstein Progress Memo #2 Repo Link</a></p>
 </div>
 </div>
-<p><a href="https://docs.google.com/spreadsheets/d/1ERY9mJLI0LpalHmZC6ImHCE6_MhL2_Ic/edit?usp=share_link&amp;ouid=109507493783401190116&amp;rtpof=true&amp;sd=true">Spreadsheet Link</a> “also in data folder of GitHub Repo”</p>
-<p>This is the link to my main database, which is a compilation of 10 NFL Draft Classes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from 2011-2020, sourced from Sports Reference’s football website: Pro Football Reference.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a <code>year</code> variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2545 observations among the 10 draft classes in this file.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup> The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The “draft class” is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.</p></div><div id="fn2"><p><sup>2</sup> “2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. </p></div></div><p><a href="https://www.pro-football-reference.com/years/2020/draft.htm">Source: Sports Reference</a></p>
-<section id="add-complexity-to-dataset" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="add-complexity-to-dataset">Add Complexity to Dataset</h2>
-<p>After submitting progress memo #1, my greatst concern was not having enough “meat on the bone”, per sé, to perform a complex enough EDA. Thus, I found two new datasets to join to my original draft profiles, adding 21 new variables to work with.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1ERY9mJLI0LpalHmZC6ImHCE6_MhL2_Ic/edit?usp=share_link&amp;ouid=109507493783401190116&amp;rtpof=true&amp;sd=true">NFL Draft Databse Link</a></p>
+<p><a href="https://www.kaggle.com/datasets/jacklichtenstein/espn-nfl-draft-prospect-data/data">NFL Draft Prospect Profile Databse Link</a></p>
+<p><a href="https://docs.google.com/spreadsheets/d/18UZee498CfwnV6H5TyBSwKJkd4vGTYiT/edit?usp=sharing&amp;ouid=109507493783401190116&amp;rtpof=true&amp;sd=true">NFL Coaches Databse Link</a></p>
+<p>“all databases also in data folder of GitHub Repo”</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reminder of original database: This is the link to my main database, which is a compilation of 10 NFL Draft Classes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from 2011-2020, sourced from Sports Reference’s football website: Pro Football Reference.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a <code>year</code> variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2545 observations among the 10 draft classes in this file. <a href="https://www.pro-football-reference.com/years/2020/draft.htm">Source: Sports Reference</a></p>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup> “2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. </p></div></div><div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup> The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The “draft class” is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.</p></div></div><section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>At this juncture, the bulk of my progress has been in cleaning, conditioning, and preparing my data for thorough visualizations. I did some initial exploratory visualizations, but my principal objective was to make sure my dataset was prepared for a complex, meaningful data journey. Some of my most important milestones were appending (joining) two new datasets to the original draft pick database, finding and fitting a model to estimate draft pick value, and performing univariate/bivariate analyses on some of the most key variables in the dataset. While there is much iteration to be done with my exploration process, I believe I am in a much better place now than when I submitted Progress Memo 1 to navigate my data effectively.</p>
+</section>
+<section id="adding-complexity-to-dataset" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="adding-complexity-to-dataset">Adding Complexity to Dataset</h2>
+<p>After submitting progress memo #1, my greatest concern was not having enough “meat on the bone”, per sé, to perform a complex enough EDA. Thus, I found two new datasets to join to my original draft profiles, adding 21 new variables to work with.</p>
 <p>The first database was sourced from Kaggle,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> containing ESPN.com draft data for each prospect. I am curious how the media performs relative to NFL professionals, so the ESPN position and overall rankings will be nteresting variables to explore. In addition, this database contains information on player height, weight, and whether the draft pick was traded, which gives further opprotunity to explore new research questions. The second database is a summary of NFL coaches by team from 2011-2020, sourced from Sports Reference in an excel spreadsheet I compiled just like my original dataset.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> This dataset not only allows for us to see which coaches are most successful at draft picks, how draft pick success relates to turnover (number of coaches per team over the decade), but also contains inofrmation on wins and losses, playoff success, and Super Bowl wins that will be tremendously useful in exploring relationships between draft success and team success.</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup> Lichtenstein, Jack. “ESPN NFL Draft Prospect Data.” Kaggle, May 5, 2021. https://www.kaggle.com/datasets/jacklichtenstein/espn-nfl-draft-prospect-data/data. </p></div><div id="fn4"><p><sup>4</sup> “2020 NFL Coaches.” Pro Football Reference. Accessed November 26, 2024. https://www.pro-football-reference.com/years/2020/coaches.htm. </p></div></div><div class="cell">
 <div class="cell-output-display">
