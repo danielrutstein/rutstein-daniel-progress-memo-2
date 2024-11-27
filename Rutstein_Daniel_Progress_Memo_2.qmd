@@ -164,6 +164,44 @@ draft |>
   )
 ```
 
+## Analysis of relationship between Position Groups and rel_w_av
+
+```{r}
+std_pos_order <- c("QB", "RB", "WR", "TE", "OL", "IDL", "EDGE", "LB", "DB", "ST")
+draft <- draft |>
+  mutate(
+    pos_group = fct_collapse(pos,
+                             "RB" = c("RB", "FB"),
+                             "OL" = c("C", "G", "T", "OL"),
+                             "IDL" = c("DL", "DT", "NT"),
+                             "EDGE" = c("DE", "OLB"),
+                             "LB" = c("ILB", "LB"),
+                             "DB" = c("DB", "CB","S"),
+                             "ST" = c("K", "LS", "P")
+    ),
+    pos_group = fct_relevel(pos_group, std_pos_order)
+  )
+
+draft |>
+  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
+  geom_boxplot() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by round, grouped by position", 
+    x = "round",
+    y = "player value"
+  )
+
+draft |>
+  ggplot(aes(x = as.factor(year), y = rel_w_av)) +
+  geom_boxplot() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by year, grouped by position", 
+    x = "round",
+    y = "player value"
+  )
+```
 
 
 
