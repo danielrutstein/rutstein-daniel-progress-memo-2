@@ -53,7 +53,7 @@ library(knitr)
 
 ::: {.callout-note}
 Reminder of original database:
-This is the link to my main database, which is a compilation of 10 NFL Draft Classes^[The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The "draft class" is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.] from 2011-2020, sourced from Sports Reference's football website: Pro Football Reference.^[“2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. ]  Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a `year` variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2545 observations among the 10 draft classes in this file.
+This is the link to my main database, which is a compilation of 10 NFL Draft Classes^[The NFL draft is an event that occurs every year after the football season ends to decide which team college (or in rare cases, international) players ready to turn professional will play for. Each team takes approximately 8 turns to pick players, in ascending order of team wins from the previous season (worst team goes first in each round), although teams are free to trade their draft picks to other teams for veteran players and/or other draft picks. The "draft class" is the group of drafted players in a given year, usually logged with the team and order in the selection process they were drafted.] from 2011-2020, sourced from Sports Reference's football website: Pro Football Reference.^[“2011-2020 NFL Draft Listing.” Sports Reference. Accessed November 3, 2024. https://www.pro-football-reference.com/years/2020/draft.htm. ]  Pro Football Reference does not have a feature to download draft classes across years, so I copied and pasted each draft table into an excel spreadsheet (.xlsx), adding a `year` variable to distinguish which draft each observation was from and left the other observations unchanged. There are 29 variables and 2544 observations among the 10 draft classes in this file.
 [Source: Sports Reference](https://www.pro-football-reference.com/years/2020/draft.htm)
 :::
 
@@ -158,7 +158,9 @@ Viewing the density plot of `rel_w_av` (see @fig-dist_value) and the boxplot of 
 
 
 
-## Analysis of relationship between Position Groups and rel_w_av
+## Analysis of Position Groups
+
+An important factor variable to consider in the exploration is position group (`pos_group` in tibble). Although `rel_w_av` attempts to determine how valuable a player is independent of position, each player in football performs a completely different role (unlike, say, baseball) and is evaluated on completely different criteria. 
 
 ```{r}
 std_pos_order <- c("QB", "RB", "WR", "TE", "OL", "IDL", "EDGE", "LB", "DB", "ST")
@@ -175,34 +177,6 @@ draft <- draft |>
     ),
     pos_group = fct_relevel(pos_group, std_pos_order)
   )
-draft |>
-  ggplot(aes(x = rel_w_av)) +
-  geom_density() +
-  facet_wrap(~pos_group) +
-  labs(
-    title = "Distribution of player value by position group", 
-    x = "player value"
-  )
-
-draft |>
-  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
-  geom_boxplot() +
-  facet_wrap(~pos_group) +
-  labs(
-    title = "Distribution of player value by round, grouped by position", 
-    x = "round",
-    y = "player value"
-  )
-
-draft |>
-  ggplot(aes(x = as.factor(year), y = rel_w_av)) +
-  geom_boxplot() +
-  facet_wrap(~pos_group) +
-  labs(
-    title = "Distribution of player value by year, grouped by position", 
-    x = "round",
-    y = "player value"
-  )
 
 draft |>
   count(round, pos_group) |>
@@ -215,7 +189,30 @@ draft |>
   )
 
 ```
-
+FIGURE HERE confirms that `pos_group` behaves as we would expect. Teams draft what NFL analysts consider "premium" positions (QB, WR, EDGE, OL) more frequently in the early rounds and less valuable positions (ST, RB, LB, TE) more frequently in the later rounds.
+```{r}
+draft |>
+  ggplot(aes(x = rel_w_av)) +
+  geom_density() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by position group", 
+    x = "player value"
+  )
+```
+From FIGURE HERE, we can clearly see the distribution of expected value by `pos_group` is not uniform. Tight ends and defensive backs have an especially high density near 0, whereas offensive lineman and quarterbacks are less dense in this region, meaning they are less likely to outright fail. 
+```{r}
+draft |>
+  ggplot(aes(x = as.factor(round), y = rel_w_av)) +
+  geom_boxplot() +
+  facet_wrap(~pos_group) +
+  labs(
+    title = "Distribution of player value by round, grouped by position", 
+    x = "round",
+    y = "player value"
+  )
+```
+Furthermore, FIGURE HERE demonstrates that dropoffs in value by round differ by `pos_group`. For example, there is a sharp dropoff in value after the first two rounds for quarterbacks, whereas offensive linemen and defensive backs follow a steady linear decline in value. 
 
 
 
