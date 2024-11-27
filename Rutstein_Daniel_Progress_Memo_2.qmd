@@ -158,7 +158,7 @@ Viewing the density plot of `rel_w_av` (see @fig-dist_value) and the boxplot of 
 
 
 
-## Analysis of Position Groups
+## Analysis of pos_group
 
 An important factor variable to consider in the exploration is position group (`pos_group` in tibble). Although `rel_w_av` attempts to determine how valuable a player is independent of position, each player in football performs a completely different role (unlike, say, baseball) and is evaluated on completely different criteria. 
 
